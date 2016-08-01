@@ -1,0 +1,108 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ribeiro.cardoso.rodasamba.UserSettingsFragment"
+    android:background="@color/gray"
+    android:padding="16dp"
+    android:orientation="vertical">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView android:layout_width="match_parent" android:layout_height="0dp"
+        android:text="Usuário"
+        android:textColor="@color/brown"
+        android:textSize="30sp"
+        android:layout_weight="3"
+        android:gravity="center_vertical|center"/>
+
+    <LinearLayout android:id="@+id/dialog_sex"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sex_text"
+            android:textColor="@color/green"
+            android:textSize="24sp"
+            />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@color/green"/>
+        <TextView android:id="@+id/user_sex_text_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Masculino"
+            android:textColor="@color/wallet_dim_foreground_inverse_holo_dark"/>
+        </LinearLayout>
+
+    <LinearLayout android:id="@+id/dialog_age_group"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/age_group_text"
+            android:textColor="@color/green"
+            android:textSize="24sp"
+            />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@color/green"/>
+        <TextView  android:id="@+id/user_age_group_text_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="15 a 25 anos"
+            android:textColor="@color/wallet_dim_foreground_inverse_holo_dark"/>
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/dialog_region"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/region_text"
+            android:textColor="@color/green"
+            android:textSize="24sp"
+            />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@color/green"/>
+        <TextView android:id="@+id/user_region_text_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Rio de Janeiro - Zona Oeste"
+            android:textColor="@color/wallet_dim_foreground_inverse_holo_dark"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/reg_submit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Salvar"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:background="@color/green"/>
+
+
+</LinearLayout>

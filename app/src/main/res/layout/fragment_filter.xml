@@ -1,0 +1,135 @@
+<ScrollView
+    android:id="@+id/filter_scroll_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.ribeiro.cardoso.rodasamba.FilterFragment"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/filter_title"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:padding="10dp"
+            android:textColor="@color/blue"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            style="@style/FilterSection">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/filter_name"
+                style="@style/FilterSectionHeader"/>
+
+            <EditText
+                android:id="@+id/filter_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/apptheme_edit_text_holo_light"
+                android:textColor="@color/blue"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/FilterSection"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="@string/region_text"
+                android:layout_weight="2"
+                style="@style/FilterSectionHeader"/>
+
+
+            <LinearLayout
+                android:id="@+id/filter_region_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/FilterSection"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/filter_date"
+                style="@style/FilterSectionHeader" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/filter_date_today"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter_date_today"
+                    style="@style/FilterSectionSwitcher"/>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/filter_date_this_week"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter_date_this_week"
+                    style="@style/FilterSectionSwitcher"/>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/filter_date_this_month"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter_date_this_month"
+
+                    style="@style/FilterSectionSwitcher"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/filter_apply_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/filter_apply"
+            android:background="@color/blue"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:textAllCaps="true"/>
+
+        <Button
+            android:id="@+id/filter_clear_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/filter_clean"
+            android:background="@color/white"
+            android:textColor="@color/blue"
+            android:padding="10dp"
+            android:textAllCaps="true"/>
+
+    </LinearLayout>
+
+</ScrollView>

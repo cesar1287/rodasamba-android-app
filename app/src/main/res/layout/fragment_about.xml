@@ -1,0 +1,61 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ribeiro.cardoso.rodasamba.AboutFragment"
+    android:background="@color/green"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/about_screen_logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/nrds_logo"
+        android:padding="40dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_text"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:padding="20dp" />
+
+            <Button
+                android:id="@+id/event_publish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/publish_event"
+                android:textSize="20sp"
+                android:padding="20dp"
+                android:layout_margin="20dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:background="@color/blue"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/developer_info"
+        android:textColor="@color/white"
+        android:padding="20dp"
+        android:background="@color/blue"
+        android:gravity="center"/>
+
+</LinearLayout>

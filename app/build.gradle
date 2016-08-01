@@ -1,0 +1,46 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        config {
+            keyAlias 'nrdskey'
+            keyPassword 'NaRodaDoSamba2014'
+            storeFile file('nrds.jks')
+            storePassword 'NaRodaDoSamba2014'
+        }
+    }
+    compileSdkVersion 21
+    buildToolsVersion '21.1.1'
+    defaultConfig {
+        applicationId "com.ribeiro.cardoso.rodasamba"
+        minSdkVersion 10
+        targetSdkVersion 21
+        versionCode 14
+        versionName "1.0.12"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
+        }
+    }
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    // You must install or update the Google Repository through the SDK manager to use this dependency.
+    compile files('libs/retrofit-1.6.1.jar')
+    compile files('libs/gson-2.3.jar')
+    compile files('libs/okhttp-2.0.0.jar')
+    compile files('libs/okio-1.0.1.jar')
+    compile files('libs/okhttp-urlconnection-2.0.0.jar')
+    compile 'com.android.support:appcompat-v7:21.0.2'
+    compile 'com.android.support:support-v4:21.0.2'
+    compile 'com.google.android.gms:play-services:6.1.71'
+    compile 'joda-time:joda-time:2.4'
+}

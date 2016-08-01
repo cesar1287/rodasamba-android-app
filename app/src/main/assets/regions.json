@@ -1,0 +1,31 @@
+[
+	{
+		"region_id" : 1,
+		"name": "Niterói e Região"
+	},
+
+	{
+		"region_id" : 2,
+		"name": "Rio de Janeiro - Zona Sul"
+	},
+
+	{
+		"region_id" : 3,
+		"name": "Rio de Janeiro - Zona Norte"
+	},
+
+	{
+		"region_id" : 4,
+		"name": "Rio de Janeiro - Zona Oeste"
+	},
+
+	{
+		"region_id" : 5,
+		"name": "Rio de Janeiro - Centro"
+	},
+
+	{
+		"region_id" : 6,
+		"name": "Baixada Fluminense"
+	}
+]

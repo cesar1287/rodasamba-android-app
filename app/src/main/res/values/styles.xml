@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="FullscreenTheme" parent="android:Theme.NoTitleBar">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">@style/ButtonBar</item>
+        <item name="metaButtonBarButtonStyle">@style/ButtonBarButton</item>
+    </style>
+
+    <style name="ButtonBar">
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:background">@android:drawable/bottom_bar</item>
+    </style>
+
+    <style name="ButtonBarButton" />
+
+    <style name="SambaTheme" parent="Theme.AppCompat.Light.DarkActionBar"/>
+
+    <style name="SambaTheme.Filled" parent="Theme.AppCompat.NoActionBar">
+        <item name="drawerArrowStyle">@style/SambaTheme.DrawerArrowStyle</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="SambaTheme.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
+
+        <item name="android:windowNoTitle">true</item>
+
+        <item name="background">@color/green</item>
+        <item name="android:background">@color/green</item>
+
+        <item name="icon">@drawable/ic_logo</item>
+        <item name="android:icon">@drawable/ic_logo</item>
+
+        <item name="android:dropDownListViewStyle">@style/SambaTheme.ActionBar.DropDownList</item>
+        <item name="dropDownListViewStyle">@style/SambaTheme.ActionBar.DropDownList</item>
+
+        <item name="titleTextStyle">@style/SambaTheme.ActionBar.TitleTextStyle</item>
+        <item name="android:titleTextStyle">@style/SambaTheme.ActionBar.TitleTextStyle</item>
+
+        <item name="android:displayOptions">showHome|useLogo</item>
+        <item name="displayOptions">showHome|useLogo</item>
+    </style>
+
+    <style name="SambaTheme.ActionBar"
+        parent="Widget.AppCompat.Light.ActionBar.Solid">
+
+        <item name="android:windowNoTitle">true</item>
+
+        <item name="background">@color/green</item>
+        <item name="android:background">@color/green</item>
+
+        <item name="icon">@drawable/ic_logo</item>
+        <item name="android:icon">@drawable/ic_logo</item>
+
+
+        <!--<item name="dropDownItemStyle">@style/SambaTheme.ActionBar.DropDownList</item>-->
+        <item name="android:dropDownListViewStyle">@style/SambaTheme.ActionBar.DropDownList</item>
+        <item name="dropDownListViewStyle">@style/SambaTheme.ActionBar.DropDownList</item>
+
+        <item name="titleTextStyle">@style/SambaTheme.ActionBar.TitleTextStyle</item>
+        <item name="android:titleTextStyle">@style/SambaTheme.ActionBar.TitleTextStyle</item>
+
+        <item name="android:displayOptions">showHome|useLogo</item>
+        <item name="displayOptions">showHome|useLogo</item>
+    </style>
+
+    <style name="SambaTheme.ActionBar.TitleTextStyle">
+
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="textAllCaps">true</item>
+
+        <item name="android:text"></item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+    <style name="SambaTheme.ActionBar.DropDownList">
+
+        <item name="android:background">@color/green</item>
+        <item name="background">@color/green</item>
+
+    </style>
+
+    <style name="SambaTheme.Transparent" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="icon">@drawable/ic_logo</item>
+        <item name="android:icon">@drawable/ic_logo</item>
+
+        <item name="actionBarStyle">@style/SambaTheme.ActionBar.Transparent</item>
+        <item name="android:actionBarStyle">@style/SambaTheme.ActionBar.Transparent</item>
+
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
+
+        <item name="android:windowContentOverlay">@null</item>
+
+
+    </style>
+
+    <style name="SambaTheme.ActionBar.Transparent">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
+
+        <item name="android:windowContentOverlay">@null</item>
+
+        <item name="android:background">@android:color/transparent</item>
+        <item name="background">@android:color/transparent</item>
+
+
+        <item name="android:displayOptions">showHome|useLogo</item>
+        <item name="displayOptions">showHome|useLogo</item>
+
+    </style>
+
+    <style name="EventShowTextHeader">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:shadowColor">@color/black_overlay</item>
+        <item name="android:shadowDx">2</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">6</item>
+    </style>
+
+    <style name="FilterSection">
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingBottom">20dp</item>
+    </style>
+
+    <style name="FilterSectionHeader">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/brown</item>
+    </style>
+
+    <style name="FilterSectionSwitcher">
+        <item name="android:padding">10dp</item>
+        <item name="android:textColor">@color/brown</item>
+        <item name="colorControlActivated">@color/green</item>
+    </style>
+
+    <style name="SambaTheme.Dialog" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:useDefaultMargins">false</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+</resources>

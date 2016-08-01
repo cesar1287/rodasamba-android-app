@@ -1,0 +1,59 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ribeiro.cardoso.rodasamba.EventListFragment"
+    android:background="@color/gray">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/events_list_loading_view"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/nrds_el_2"
+            android:id="@+id/events_list_loading_image"
+            android:padding="100dp"
+            android:layout_centerInParent="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading"
+            android:textColor="@color/white"
+            android:textAllCaps="true"
+            android:layout_centerInParent="true"
+            android:textSize="16sp"
+            android:textStyle="italic"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/event_lists_result_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/events_list"
+            android:padding="8dp"
+            android:paddingTop="0dp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:text="@string/search_empty"
+        android:gravity="center"
+        android:padding="20dp"
+        android:textSize="20sp"
+        android:textColor="@color/green"
+        android:id="@+id/search_empty_view"
+        android:visibility="gone"/>
+
+</LinearLayout>

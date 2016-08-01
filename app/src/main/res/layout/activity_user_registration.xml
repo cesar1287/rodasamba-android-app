@@ -1,0 +1,99 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/green"
+    tools:context="com.ribeiro.cardoso.rodasamba.UserRegistrationActivity"
+    android:padding="16dp">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+
+    <LinearLayout
+        android:id="@+id/user_registration_form_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/user_registration_title"
+            android:textColor="#ffffff"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:layout_weight="3"
+            />
+
+        <TextView
+            android:id="@+id/reg_sex_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sex_text"
+            android:textColor="@color/white"
+            android:textStyle="normal"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:layout_weight="2"
+            android:layout_margin="16dp"/>
+
+        <TextView
+            android:id="@+id/reg_age_group_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/age_group_text"
+            android:textColor="@color/white"
+            android:textStyle="normal"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:layout_weight="2"
+            android:layout_margin="16dp"/>
+
+        <TextView
+            android:id="@+id/reg_region_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/region_text"
+            android:textColor="@color/white"
+            android:textStyle="normal"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:layout_weight="2"
+            android:layout_margin="16dp"/>
+
+        <Button
+            android:id="@+id/reg_submit_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="@string/user_registration_post_button"
+            android:textColor="@color/green"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:layout_margin="16dp"
+            android:background="@color/white"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/loading_screen_progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/loading_screen_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nrds_logo"
+            android:layout_centerInParent="true"/>
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_below="@+id/loading_screen_logo"
+            android:layout_marginTop="40dp" />
+    </RelativeLayout>
+
+</FrameLayout>
