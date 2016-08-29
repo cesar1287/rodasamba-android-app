@@ -96,5 +96,6 @@
     </string>
     <string name="common_google_play_services_network_error_text">Uma conexão de dados é requerida para conectar ao Google Play services.</string>
     <string name="facebook_app_id">1661175424199412</string>
+    <string name="continue_how_visitant">Continuar como visitante</string>
 
 </resources>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "753385015196",
+    "project_id": "na-roda-do-samba"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753385015196:android:3cae842d5466b642",
+        "android_client_info": {
+          "package_name": "com.ribeiro.cardoso.rodasamba"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "753385015196-tevprmm9vf8v2fs6ifn9djkgjt6mrjpe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ribeiro.cardoso.rodasamba",
+            "certificate_hash": "A69DCF59BC88BC8F3E36C3A16A38843BE2A607B0"
+          }
+        },
+        {
+          "client_id": "753385015196-v1d3k8660mg3a1smi4s3n7uhs38gut0g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-IVRMBWkcwJdpDeof6Q1v2ssczqqCDKU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
