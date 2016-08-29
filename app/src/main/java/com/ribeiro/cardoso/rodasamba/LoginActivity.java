@@ -1,9 +1,7 @@
 package com.ribeiro.cardoso.rodasamba;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -43,13 +41,22 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         AppEventsLogger.activateApp(this);
         setContentView(R.layout.activity_login);
 
+        TextView continue_how_visitant = (TextView) findViewById(R.id.continue_how_visitant);
+
+        continue_how_visitant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, UserRegistrationActivity.class));
+            }
+        });
+
         callbackManager = CallbackManager.Factory.create();
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions(Collections.singletonList("email"));
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                //appcode
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
 
             @Override

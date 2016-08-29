@@ -45,6 +45,6 @@
         android:id="@+id/continue_how_visitant"
         android:layout_below="@+id/sign_in_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="20dp"/>
 
 </RelativeLayout>
