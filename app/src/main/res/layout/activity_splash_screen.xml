@@ -12,14 +12,13 @@
         android:layout_centerInParent="true">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center">
             <ImageView
                 android:layout_width="600dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_centerInParent="true"
                 android:src="@drawable/nrds_el_1"
                 android:id="@+id/nrds_element_1"/>
         </LinearLayout>

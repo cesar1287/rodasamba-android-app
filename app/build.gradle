@@ -9,12 +9,12 @@ android {
             storePassword 'NaRodaDoSamba2014'
         }
     }
-    compileSdkVersion 21
-    buildToolsVersion '21.1.1'
+    compileSdkVersion 24
+    buildToolsVersion '24.0.2'
     defaultConfig {
         applicationId "com.ribeiro.cardoso.rodasamba"
-        minSdkVersion 10
-        targetSdkVersion 21
+        minSdkVersion 15
+        targetSdkVersion 24
         versionCode 14
         versionName "1.0.12"
     }
@@ -31,6 +31,10 @@ android {
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     // You must install or update the Google Repository through the SDK manager to use this dependency.
@@ -39,8 +43,9 @@ dependencies {
     compile files('libs/okhttp-2.0.0.jar')
     compile files('libs/okio-1.0.1.jar')
     compile files('libs/okhttp-urlconnection-2.0.0.jar')
-    compile 'com.android.support:appcompat-v7:21.0.2'
-    compile 'com.android.support:support-v4:21.0.2'
-    compile 'com.google.android.gms:play-services:6.1.71'
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:support-v4:24.2.0'
+    compile 'com.google.android.gms:play-services:9.4.0'
     compile 'joda-time:joda-time:2.4'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 }

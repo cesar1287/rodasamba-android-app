@@ -1,11 +1,14 @@
 package com.ribeiro.cardoso.rodasamba;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -41,7 +45,7 @@ import java.util.Map;
 /**
  * Created by vinicius.ribeiro on 24/11/2014.
  */
-public class EventsMapFragment extends Fragment implements LocationListener, EventIndexInterface {
+public class EventsMapFragment extends Fragment implements LocationListener, EventIndexInterface, OnMapReadyCallback {
     private static final String LOG_TAG = EventsMapFragment.class.getSimpleName();
 
     private static final float MAP_ZOOM = 13;
@@ -140,10 +144,10 @@ public class EventsMapFragment extends Fragment implements LocationListener, Eve
             GooglePlayServicesUtil.getErrorDialog(GooglePlayServicesUtil.isGooglePlayServicesAvailable(this.getActivity()), this.getActivity(), 0).show();
         } else {
             setUpMapIfNeeded();
-            if (!Utility.isUserCreated(this.getActivity())) {
+            /*if (!Utility.isUserCreated(this.getActivity())) {
                 Intent intent = new Intent(this.getActivity(), UserRegistrationActivity.class);
                 startActivity(intent);
-            }
+            }*/
         }
     }
 
@@ -171,8 +175,9 @@ public class EventsMapFragment extends Fragment implements LocationListener, Eve
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
+            ((SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map))
+                    .getMapAsync(this);
+
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
@@ -206,11 +211,21 @@ public class EventsMapFragment extends Fragment implements LocationListener, Eve
     public void onLocationChanged(Location location) {
         moveMapToLocation(location);
 
+        if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         mLocationManager.removeUpdates(this);
     }
 
     private void moveMapToLocation(Location location) {
-        double  lat = location.getLatitude(),
+        double lat = location.getLatitude(),
                 lg = location.getLongitude();
 
         LatLng latLng = new LatLng(lat, lg);
@@ -218,11 +233,20 @@ public class EventsMapFragment extends Fragment implements LocationListener, Eve
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         if (this.mAnimateCamera) {
             mMap.animateCamera(CameraUpdateFactory.zoomTo(MAP_ZOOM));
-        }
-        else {
+        } else {
             mMap.moveCamera(CameraUpdateFactory.zoomTo(MAP_ZOOM));
         }
 
+        if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         mLocationManager.removeUpdates(this);
 
     }
@@ -273,8 +297,7 @@ public class EventsMapFragment extends Fragment implements LocationListener, Eve
 
                 if (isToday) {
                     markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_pin));
-                }
-                else {
+                } else {
                     markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_pin_off));
                 }
                 markerOptions.position(position);
@@ -286,11 +309,10 @@ public class EventsMapFragment extends Fragment implements LocationListener, Eve
                 mMarkerEventMap.put(marker, eventRegionPair);
             }
 
-            if(this.mMoveCamera) {
+            if (this.mMoveCamera) {
                 if (showAllPins) {
                     moveCameraToViewPins();
-                }
-                else {
+                } else {
                     Region region = new Region();
                     region.id = Utility.getRegionUser(this.getActivity());
 
@@ -304,75 +326,72 @@ public class EventsMapFragment extends Fragment implements LocationListener, Eve
 
     private List<Utility.Pair<Event, Region>> getFilterRegionList() {
 
-        if(this.mFilter == null){
+        if (this.mFilter == null) {
             return mCompleteEventsRegionList;
         }
 
         List<Utility.Pair<Event, Region>> eventsRegionList = new ArrayList<Utility.Pair<Event, Region>>();
 
-        for (Utility.Pair<Event, Region> eventRegion: this.mCompleteEventsRegionList) {
+        for (Utility.Pair<Event, Region> eventRegion : this.mCompleteEventsRegionList) {
             Event event = eventRegion.getLeft();
 
-            if (this.mFilter == null || (this.mFilter != null && this.mFilter.getThrough(event))){
+            if (this.mFilter == null || (this.mFilter != null && this.mFilter.getThrough(event))) {
                 eventsRegionList.add(eventRegion);
             }
         }
 
-        return  eventsRegionList;
+        return eventsRegionList;
     }
 
-    private void moveCameraToViewPins(){
+    private void moveCameraToViewPins() {
 
         List<Event> eventsList = new ArrayList<Event>();
 
-        for (Utility.Pair<Event, Region> eventRegionPair: this.mMarkerEventMap.values()){
+        for (Utility.Pair<Event, Region> eventRegionPair : this.mMarkerEventMap.values()) {
             eventsList.add(eventRegionPair.getLeft());
         }
 
         this.moveCameraToViewPins(eventsList);
     }
 
-    private void moveCameraToViewPins(List<Event> events){
+    private void moveCameraToViewPins(List<Event> events) {
         LatLngBounds boundsBuild = null;
 
-        for(Event event: events){
+        for (Event event : events) {
             LatLng latLng = new LatLng(event.latitude, event.longitude);
 
             if (boundsBuild == null) {
                 boundsBuild = new LatLngBounds(latLng, latLng);
-            }
-            else {
+            } else {
                 boundsBuild = boundsBuild.including(latLng);
             }
         }
 
-        if (boundsBuild != null){
+        if (boundsBuild != null) {
             if (this.mAnimateCamera) {
                 mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(boundsBuild, MAP_PADDING));
-            }
-            else {
+            } else {
                 mMap.moveCamera((CameraUpdateFactory.newLatLngBounds(boundsBuild, MAP_PADDING)));
             }
-        }
-        else{
+        } else {
             Toast.makeText(this.getActivity(), "Nenhum evento encontrado.", Toast.LENGTH_SHORT);
         }
 
     }
 
-    private void moveCameraToRegionPins(Region region, List<Utility.Pair<Event, Region>> eventsToSearch){
+    private void moveCameraToRegionPins(Region region, List<Utility.Pair<Event, Region>> eventsToSearch) {
         List<Event> eventsToShow = new ArrayList<Event>();
 
-        for (Utility.Pair<Event, Region> eventRegionPair: eventsToSearch){
+        for (Utility.Pair<Event, Region> eventRegionPair : eventsToSearch) {
             Event event = eventRegionPair.getLeft();
-            if (event.region_id == region.id){
+            if (event.region_id == region.id) {
                 eventsToShow.add(event);
             }
         }
 
-        if (eventsToShow.size() > 0){
+        if (eventsToShow.size() > 0) {
             moveCameraToViewPins(eventsToShow);
-        }else{
+        } else {
             moveCameraToViewPins();
         }
     }
@@ -380,6 +399,22 @@ public class EventsMapFragment extends Fragment implements LocationListener, Eve
     @Override
     public void onIndexError(int errorType) {
 
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.mMap = googleMap;
+        if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
     }
 
     private class EventMarkerClickListener implements GoogleMap.OnMarkerClickListener {

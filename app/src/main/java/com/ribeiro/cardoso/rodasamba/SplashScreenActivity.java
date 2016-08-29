@@ -34,7 +34,7 @@ import java.util.ArrayList;
  *
  * @see SystemUiHider
  */
-public class SplashScreenActivity extends Activity implements EventIndexInterface {
+public class SplashScreenActivity extends Activity implements EventIndexInterface, Runnable {
 
     private static final int SPLASH_ANIMATION_LENGTH = 4000;
     private static final int SPLASH_DISPLAY_LENGTH = 5000;
@@ -70,27 +70,26 @@ public class SplashScreenActivity extends Activity implements EventIndexInterfac
     }
 
     private void configureActivity() {
-        if (Utility.isFirstLaunch(this) || !Utility.isUserCreated(SplashScreenActivity.this)){
+        if(Utility.isFirstLaunch(this) || !Utility.isUserCreated(SplashScreenActivity.this)){
 
             if (Utility.isNetworkConnected(this)) {
-                this.startUserRegistrationActivity();
+                //this.startUserRegistrationActivity();
+                Handler handler = new Handler();
+                handler.postDelayed(this, 3000);
             }
             else {
                 this.startNotConnectedActivity();
             }
-        }
-        else {
-            if (Utility.isNetworkConnected(this)) {
+        }else{
+            if(Utility.isNetworkConnected(this)){
                 // is connected, can fetch events on server
 
-                if (Utility.isOccurringToday(Utility.getLastSync(this)) && Utility.getLastSync(this).getHourOfDay() > 9) {
+                if(Utility.isOccurringToday(Utility.getLastSync(this)) && Utility.getLastSync(this).getHourOfDay() > 9){
                     this.startMapActivity(false);
-                }
-                else {
+                }else{
                     this.startMapActivity(true);
                 }
-            }
-            else {
+            }else{
                 // not connected, use db fetch only
 
                 if (Utility.getLastSync(this).plusDays(3).isBeforeNow()) {
@@ -103,6 +102,12 @@ public class SplashScreenActivity extends Activity implements EventIndexInterfac
                 }
             }
         }
+    }
+
+    @Override
+    public void run() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 
     private void startMapActivity(boolean onlineFetch) {
@@ -164,13 +169,13 @@ public class SplashScreenActivity extends Activity implements EventIndexInterfac
     }
 
     private void startUserRegistrationActivity() {
-        mReceiver = new SetupServiceReceiver(this);
+        /*mReceiver = new SetupServiceReceiver(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(SetupDatabaseService.SERVICE_STATUS);
         registerReceiver(mReceiver, intentFilter);
 
         Intent setupDBintent = new Intent(this, SetupDatabaseService.class);
-        startService(setupDBintent);
+        startService(setupDBintent);*/
     }
 
     private void startNotConnectedActivity() {

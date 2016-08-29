@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ribeiro.cardoso.rodasamba" >
+    package="com.ribeiro.cardoso.rodasamba">
 
     <permission
         android:name="com.cardoso.ribeiro.samba.permission.MAPS_RECEIVE"
@@ -19,14 +19,18 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/SambaTheme.Filled" >
-
-        <service android:name="com.ribeiro.cardoso.rodasamba.service.SetupDatabaseService" />
-        <service android:name="com.ribeiro.cardoso.rodasamba.service.SyncedEventDatabaseService" />
+        android:theme="@style/SambaTheme.Filled">
+        <service android:name=".service.SetupDatabaseService" />
+        <service android:name=".service.SyncedEventDatabaseService" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -35,20 +39,22 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
         <activity
-            android:name="com.ribeiro.cardoso.rodasamba.UserRegistrationActivity"
+            android:name=".UserRegistrationActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_user_registration"
             android:logo="@drawable/ic_logo"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar">
-        </activity>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:name="com.ribeiro.cardoso.rodasamba.SplashScreenActivity"
+            android:name=".SplashScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -56,34 +62,37 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ribeiro.cardoso.rodasamba.EventShowActivity"
+            android:name=".EventShowActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_event_show"
             android:screenOrientation="portrait"
-            android:theme="@style/SambaTheme.Transparent" >
-        </activity>
+            android:theme="@style/SambaTheme.Transparent" />
         <activity
-            android:name="com.ribeiro.cardoso.rodasamba.EventsMapInfoActivity"
+            android:name=".EventsMapInfoActivity"
             android:label="@string/title_activity_events_map_info"
-            android:theme="@style/SambaTheme.Dialog"
-            >
-        </activity>
+            android:theme="@style/SambaTheme.Dialog" />
         <activity
-            android:name="com.ribeiro.cardoso.rodasamba.NotConnectedActivity"
+            android:name=".NotConnectedActivity"
             android:label="@string/title_activity_not_connected"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
-            android:name="com.ribeiro.cardoso.rodasamba.SettingsActivity"
-            android:label="@string/title_activity_settings" >
-        </activity>
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" />
         <activity
-            android:name="com.ribeiro.cardoso.rodasamba.MainActivity"
+            android:name=".MainActivity"
             android:configChanges="orientation"
-            android:windowSoftInputMode="adjustResize"
+            android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
-            android:label="@string/title_activity_main" >
-        </activity>
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login" />
+
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
     </application>
 
 </manifest>

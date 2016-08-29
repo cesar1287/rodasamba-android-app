@@ -107,11 +107,14 @@ public class UserRegistrationActivity extends FragmentActivity implements UserRe
         });
 
         mSubmitButton = (Button) findViewById(R.id.reg_submit_button);
-        mSubmitButton.setEnabled(false);
+        //mSubmitButton.setEnabled(false);
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendUserToService();
+                //sendUserToService();
+                finish();
+                startActivity(new Intent(UserRegistrationActivity.this, MainActivity.class));
+                //startActivity(new Intent(UserRegistrationActivity.this, LoginActivity.class));
             }
         });
     }
@@ -126,7 +129,7 @@ public class UserRegistrationActivity extends FragmentActivity implements UserRe
 
     private void sendUserToService() {
 
-        Toast.makeText(this, getString(R.string.data_being_send), Toast.LENGTH_SHORT);
+        Toast.makeText(this, getString(R.string.data_being_send), Toast.LENGTH_SHORT).show();
 
         User user = new User();
         user.age_group_id = mAgeGroupIdSelected;
