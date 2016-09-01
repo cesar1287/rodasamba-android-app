@@ -6,7 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 
@@ -21,8 +23,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Scope;
 
 import java.util.Collections;
 
@@ -39,7 +43,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
+        AppEventsLogger.activateApp(getApplication());
         setContentView(R.layout.activity_login);
 
         TextView continue_how_visitant = (TextView) findViewById(R.id.continue_how_visitant);
@@ -57,6 +61,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                finish();
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
 
@@ -67,7 +72,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             @Override
             public void onError(FacebookException error) {
-                //appcode
+                System.out.println(error.getMessage());
             }
         });
 
@@ -76,6 +81,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestScopes(new Scope(Scopes.PLUS_LOGIN))
                 .requestEmail()
                 .build();
         // [END configure_signin]
@@ -121,6 +127,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         }
+
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
     // [END onActivityResult]
 
@@ -130,6 +138,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
+            Toast.makeText(LoginActivity.this, acct.getEmail(), Toast.LENGTH_SHORT).show();
         } else {
             // Signed out, show unauthenticated UI.
         }

@@ -13,21 +13,17 @@
       },
       "oauth_client": [
         {
-          "client_id": "753385015196-tevprmm9vf8v2fs6ifn9djkgjt6mrjpe.apps.googleusercontent.com",
+          "client_id": "753385015196-em1i4auvfvstvc8mgmr3umbibcc0in3r.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.ribeiro.cardoso.rodasamba",
-            "certificate_hash": "A69DCF59BC88BC8F3E36C3A16A38843BE2A607B0"
+            "certificate_hash": "8A21FC8E548A7F1169FC9213202BFBF8BECF4112"
           }
-        },
-        {
-          "client_id": "753385015196-v1d3k8660mg3a1smi4s3n7uhs38gut0g.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB-IVRMBWkcwJdpDeof6Q1v2ssczqqCDKU"
+          "current_key": "AIzaSyD5kBSCxfDbAHk-u1B2O1hBRV4RdB-VQYs"
         }
       ],
       "services": {
