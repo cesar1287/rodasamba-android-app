@@ -73,7 +73,7 @@ public class SplashScreenActivity extends Activity implements EventIndexInterfac
         if(Utility.isFirstLaunch(this) || !Utility.isUserCreated(SplashScreenActivity.this)){
 
             if (Utility.isNetworkConnected(this)) {
-                //this.startUserRegistrationActivity();
+                this.startUserRegistrationActivity();
                 Handler handler = new Handler();
                 handler.postDelayed(this, 3000);
             }
@@ -169,13 +169,13 @@ public class SplashScreenActivity extends Activity implements EventIndexInterfac
     }
 
     private void startUserRegistrationActivity() {
-        /*mReceiver = new SetupServiceReceiver(this);
+        mReceiver = new SetupServiceReceiver(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(SetupDatabaseService.SERVICE_STATUS);
         registerReceiver(mReceiver, intentFilter);
 
         Intent setupDBintent = new Intent(this, SetupDatabaseService.class);
-        startService(setupDBintent);*/
+        startService(setupDBintent);
     }
 
     private void startNotConnectedActivity() {

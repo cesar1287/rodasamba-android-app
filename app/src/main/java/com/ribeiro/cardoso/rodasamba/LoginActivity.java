@@ -2,11 +2,9 @@ package com.ribeiro.cardoso.rodasamba;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +49,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         continue_how_visitant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 startActivity(new Intent(LoginActivity.this, UserRegistrationActivity.class));
             }
         });
@@ -154,7 +153,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    public void onConnectionFailed(ConnectionResult connectionResult) {
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
         Log.d(TAG, "onConnectionFailed:" + connectionResult);

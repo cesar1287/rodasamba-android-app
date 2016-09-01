@@ -16,6 +16,9 @@ import com.ribeiro.cardoso.rodasamba.data.Entities.Region;
 import com.ribeiro.cardoso.rodasamba.data.Entities.Sex;
 import com.ribeiro.cardoso.rodasamba.data.SambaContract;
 import com.ribeiro.cardoso.rodasamba.data.SambaDbHelper;
+import com.ribeiro.cardoso.rodasamba.util.dialog.AgeGroupDialogFragment;
+
+import java.util.ArrayList;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -53,14 +56,147 @@ public class SetupDatabaseService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         mSambaHelper = SambaDbHelper.getInstance(this);
 
-        mRegionApi = new RegionSambaApi();
+        /*mRegionApi = new RegionSambaApi();
         mRegionApi.index(new RegionCallbackHandler(this, mSambaHelper));
 
         mAgeGroupSambaApi = new AgeGroupSambaApi();
         mAgeGroupSambaApi.index(new AgeGroupCallbackHandler(this, mSambaHelper));
 
         mSexSambaApi = new SexSambaApi();
-        mSexSambaApi.index(new SexCallbackHandler(this, mSambaHelper));
+        mSexSambaApi.index(new SexCallbackHandler(this, mSambaHelper));*/
+
+        Sex masculino = new Sex();
+        masculino.setKey("M");
+        masculino.setName("Masculino");
+
+        Sex feminino = new Sex();
+        feminino.setKey("F");
+        feminino.setName("Feminino");
+
+        ArrayList<Sex> sexData = new ArrayList<>();
+        sexData.add(masculino);
+        sexData.add(feminino);
+
+        Region norte = new Region();
+        norte.setId(1);
+        norte.setName("Norte");
+
+        Region sul = new Region();
+        sul.setId(2);
+        sul.setName("Sul");
+
+        Region leste = new Region();
+        leste.setId(3);
+        leste.setName("Leste");
+
+        Region oeste = new Region();
+        oeste.setId(4);
+        oeste.setName("Oeste");
+
+        Region centro = new Region();
+        centro.setId(5);
+        centro.setName("Centro");
+
+        ArrayList<Region> regionData = new ArrayList<>();
+        regionData.add(norte);
+        regionData.add(sul);
+        regionData.add(centro);
+        regionData.add(leste);
+        regionData.add(oeste);
+
+        AgeGroup a1 = new AgeGroup();
+        a1.setId(1);
+        a1.setName("Até 18");
+
+        AgeGroup a2 = new AgeGroup();
+        a2.setId(2);
+        a2.setName("19-24");
+
+        AgeGroup a3 = new AgeGroup();
+        a3.setId(3);
+        a3.setName("25-45");
+
+        AgeGroup a4 = new AgeGroup();
+        a4.setId(4);
+        a4.setName("Mais de 45");
+
+        ArrayList<AgeGroup> ageData = new ArrayList<>();
+        ageData.add(a1);
+        ageData.add(a2);
+        ageData.add(a3);
+        ageData.add(a4);
+
+        final SQLiteDatabase writableDatabase = mSambaHelper.getWritableDatabase();
+
+        try{
+            writableDatabase.beginTransaction();
+
+            for (Sex sex : sexData){
+                ContentValues cv = new ContentValues(2);
+                cv.put(SambaContract.SexEntry.COLUMN_KEY, sex.getKey());
+                cv.put(SambaContract.SexEntry.COLUMN_NAME, sex.getName());
+
+                writableDatabase.insert(
+                        SambaContract.SexEntry.TABLE_NAME,
+                        null,
+                        cv);
+                Log.i(LOG_TAG, "Criando gênero: " + cv.getAsString("name"));
+            }
+            writableDatabase.setTransactionSuccessful();
+        }catch (Exception e){
+            Log.e(LOG_TAG, "Error: " + e.getMessage());
+        }finally {
+            writableDatabase.endTransaction();
+            this.mSexDone = true;
+            this.isAllDatabasePopulated();
+        }
+
+        try{
+            writableDatabase.beginTransaction();
+
+            for (Region region : regionData){
+                ContentValues cv = new ContentValues(2);
+                cv.put(SambaContract.RegionEntry._ID, region.getId());
+                cv.put(SambaContract.RegionEntry.COLUMN_NAME, region.getName());
+
+                writableDatabase.insert(
+                        SambaContract.RegionEntry.TABLE_NAME,
+                        null,
+                        cv);
+                Log.i(LOG_TAG, "Criando região: " + cv.getAsString("name"));
+            }
+            writableDatabase.setTransactionSuccessful();
+        }catch (Exception e){
+            Log.e(LOG_TAG, "Error: " + e.getMessage());
+        }finally {
+            writableDatabase.endTransaction();
+            this.mRegionDone = true;
+            this.isAllDatabasePopulated();
+        }
+
+        try{
+            writableDatabase.beginTransaction();
+
+            for (AgeGroup ageGroup : ageData){
+                ContentValues cv = new ContentValues(2);
+                cv.put(SambaContract.AgeGroupEntry._ID, ageGroup.id);
+                cv.put(SambaContract.AgeGroupEntry.COLUMN_NAME, ageGroup.name);
+
+                writableDatabase.insert(
+                        SambaContract.AgeGroupEntry.TABLE_NAME,
+                        null,
+                        cv);
+                Log.i(LOG_TAG, "Criando faixa etária: " + cv.getAsString("name"));
+            }
+            writableDatabase.setTransactionSuccessful();
+        }catch (Exception e){
+            Log.e(LOG_TAG, "Error: " + e.getMessage());
+        }
+        finally {
+            writableDatabase.endTransaction();
+            this.mAgeGroupDone = true;
+            this.isAllDatabasePopulated();
+        }
 
     }
 
@@ -74,7 +210,7 @@ public class SetupDatabaseService extends IntentService {
         }
     }
 
-    private static class SexCallbackHandler implements Callback<SambaApi.SambaApiResponse<Sex>>{
+    /*private static class SexCallbackHandler implements Callback<SambaApi.SambaApiResponse<Sex>>{
 
         private final SetupDatabaseService mContext;
         private final SambaDbHelper mSambaHelper;
@@ -218,5 +354,5 @@ public class SetupDatabaseService extends IntentService {
             Log.e(LOG_TAG, retrofitError.getUrl() + ": " + retrofitError.getMessage());
             Utility.forceFirstLaunch(mContext, true);
         }
-    }
+    }*/
 }
