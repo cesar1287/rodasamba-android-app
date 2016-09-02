@@ -31,6 +31,7 @@
     <string name="menu_item_share">Compartilhar</string>
     <string name="menu_item_navigate">Ir pro samba</string>
     <string name="menu_item_about">Sobre</string>
+    <string name="menu_item_logout">Sair</string>
     <string name="menu_item_filter">Filtrar</string>
     <string name="search">Pesquisar...</string>
     <string name="loading">Carregando...</string>
@@ -59,6 +60,7 @@
         <item>@string/menu_item_list</item>
         <item>@string/menu_item_settings</item>
         <item>@string/menu_item_about</item>
+        <item>@string/menu_item_logout</item>
     </string-array>
     <string name="about_text">Encontre no Rio de Janeiro as rodas de samba mais próximas de você.\n\nO App Na Roda do Samba nasce para ajudar na diversão e no prazer de estar presente à uma roda de samba.\n\nQueremos que antes de sair de casa ou do trabalho o sambista já tenha as informações necessárias para programar a sua experiência no mundo do Samba.\n\nCom a explosão do número de Rodas de Samba, o app Na Roda do Samba apresenta a localização, preço da entrada e as caraterísticas e atrações de cada uma das dezenas de rodas de samba e pagode espalhadas pelo Grande Rio.\n\nEsse aplicativo e uma ação complementar a série televisiva Na Roda do Samba, produzido pela Ventura Filmes, e visa apresentar e ampliar a experiência do Samba no Rio de Janeiro.\n\nQuer incluir sua roda de samba no aplicativo? Entre em contato.</string>
     <string name="developer_info">Desenvolvido por Diego Cardoso e Vinícius Ribeiro</string>
@@ -97,5 +99,10 @@
     <string name="common_google_play_services_network_error_text">Uma conexão de dados é requerida para conectar ao Google Play services.</string>
     <string name="facebook_app_id">1661175424199412</string>
     <string name="continue_how_visitant">Continuar como visitante</string>
+
+    <!-- Strings related to logout -->
+    <string name="message_logout">Tem certeza que deseja sair?</string>
+    <string name="yes_logout">Sim</string>
+    <string name="no_logout">Não</string>
 
 </resources>

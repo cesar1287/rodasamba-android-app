@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 
 import com.facebook.CallbackManager;
@@ -24,6 +24,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.Scope;
 
 import java.util.Collections;
@@ -43,6 +44,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(getApplication());
         setContentView(R.layout.activity_login);
+
+        if(AccessToken.getCurrentAccessToken()!=null){
+            finish();
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            //processLoginFacebook(AccessToken.getCurrentAccessToken());
+        }
 
         TextView continue_how_visitant = (TextView) findViewById(R.id.continue_how_visitant);
 
@@ -113,6 +120,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 signIn();
             }
         });
+
+        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+        if (opr.isDone()) {
+            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+            // and the GoogleSignInResult will be available instantly.
+            Log.d(TAG, "Got cached sign-in");
+            GoogleSignInResult result = opr.get();
+            handleSignInResult(result);
+        }
     }
 
 
@@ -137,7 +153,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            Toast.makeText(LoginActivity.this, acct.getEmail(), Toast.LENGTH_SHORT).show();
+            finish();
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
         } else {
             // Signed out, show unauthenticated UI.
         }

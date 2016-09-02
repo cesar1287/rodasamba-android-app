@@ -1,12 +1,18 @@
 package com.ribeiro.cardoso.rodasamba;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +21,13 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.ribeiro.cardoso.rodasamba.data.Entities.Event;
 import com.ribeiro.cardoso.rodasamba.util.Utility;
 
@@ -23,16 +36,16 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity implements FilterFragment.EventFilterListener {
+public class MainActivity extends AppCompatActivity implements FilterFragment.EventFilterListener, GoogleApiClient.OnConnectionFailedListener {
 
-    private String[] mDrawerListItems;
+    String[] mDrawerListItems;
     private ActionBarDrawerToggle mDrawerToggle;
     private ViewHolder mHolder;
     private Fragment mFragment;
     private FilterFragment mFilterFragment = null;
     private EventFilter mFilter;
 
-
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +56,7 @@ public class MainActivity extends ActionBarActivity implements FilterFragment.Ev
 
         this.mHolder = new ViewHolder(this.findViewById(R.id.main_drawer_layout));
 
-        this.mHolder.mSliderMenuListView.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, R.id.drawer_item_text, this.mDrawerListItems));
+        this.mHolder.mSliderMenuListView.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, R.id.drawer_item_text, this.mDrawerListItems));
         this.mHolder.mSliderMenuListView.setOnItemClickListener(new DrawerItemClickListener(this));
 
         this.setupActionBar();
@@ -54,6 +67,15 @@ public class MainActivity extends ActionBarActivity implements FilterFragment.Ev
         else {
             this.showFragment(EventListFragment.newInstance(this.mFilter));
         }
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
     }
 
     private void setupActionBar() {
@@ -215,6 +237,11 @@ public class MainActivity extends ActionBarActivity implements FilterFragment.Ev
         return this.mFilter;
     }
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d("onConnectionFailed:", ""+connectionResult);
+    }
+
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
         private MainActivity mActivity;
@@ -233,25 +260,67 @@ public class MainActivity extends ActionBarActivity implements FilterFragment.Ev
                     && !(this.mActivity.mFragment instanceof AboutFragment)) {
                 // Fragment about
                 fragment = AboutFragment.newInstance();
-            }
-            else if (drawerItems[position].equals(MainActivity.this.getString(R.string.menu_item_list))
+            }else if (drawerItems[position].equals(MainActivity.this.getString(R.string.menu_item_list))
                     && !(this.mActivity.mFragment instanceof EventListFragment)) {
                 // Fragment list
                 fragment = EventListFragment.newInstance(this.mActivity.getFilter());
-            }
-            else if (drawerItems[position].equals(MainActivity.this.getString(R.string.menu_item_map))
+            }else if (drawerItems[position].equals(MainActivity.this.getString(R.string.menu_item_map))
                     && !(this.mActivity.mFragment instanceof EventsMapFragment)) {
                 // Fragment map
                 fragment = EventsMapFragment.newInstance(false, this.mActivity.getFilter());
-            }
-            else if (drawerItems[position].equals(MainActivity.this.getString(R.string.menu_item_settings))
+            }else if (drawerItems[position].equals(MainActivity.this.getString(R.string.menu_item_settings))
                     && !(this.mActivity.mFragment instanceof UserSettingsFragment)) {
                 // Fragment setings
                 fragment = UserSettingsFragment.newInstance();
+            }else if (drawerItems[position].equals(MainActivity.this.getString(R.string.menu_item_logout))){
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+                builder.setMessage(R.string.message_logout)
+                        .setPositiveButton(R.string.yes_logout, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+                                progressDialog.setMessage("Saindo...");
+                                progressDialog.show();
+                                Thread mThread = new Thread(){
+                                    @Override
+                                    public void run() {
+                                        //logout Google
+                                        signOut();
+                                        //logout Facebook
+                                        LoginManager.getInstance().logOut();
+                                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                                        progressDialog.dismiss();
+                                        /*SharedPreferences sp = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sp.edit();
+                                        editor.clear();
+                                        editor.apply();*/
+                                        finish(); // dispose do java
+                                    }
+                                };
+                                mThread.start();
+                            }
+                        })
+                        .setNegativeButton(R.string.no_logout, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        });
+                builder.show();
             }
+
 
             this.mActivity.showFragment(fragment);
         }
+    }
+
+    private void signOut() {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        //nothing to do
+                    }
+                });
     }
 
     public class EventFilter {

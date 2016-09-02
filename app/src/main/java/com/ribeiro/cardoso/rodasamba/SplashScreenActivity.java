@@ -34,7 +34,7 @@ import java.util.ArrayList;
  *
  * @see SystemUiHider
  */
-public class SplashScreenActivity extends Activity implements EventIndexInterface, Runnable {
+public class SplashScreenActivity extends Activity implements EventIndexInterface{
 
     private static final int SPLASH_ANIMATION_LENGTH = 4000;
     private static final int SPLASH_DISPLAY_LENGTH = 5000;
@@ -73,9 +73,13 @@ public class SplashScreenActivity extends Activity implements EventIndexInterfac
         if(Utility.isFirstLaunch(this) || !Utility.isUserCreated(SplashScreenActivity.this)){
 
             if (Utility.isNetworkConnected(this)) {
-                this.startUserRegistrationActivity();
                 Handler handler = new Handler();
-                handler.postDelayed(this, 3000);
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        SplashScreenActivity.this.startUserRegistrationActivity();
+                    }
+                }, 3000);
             }
             else {
                 this.startNotConnectedActivity();
@@ -102,12 +106,6 @@ public class SplashScreenActivity extends Activity implements EventIndexInterfac
                 }
             }
         }
-    }
-
-    @Override
-    public void run() {
-        startActivity(new Intent(this, LoginActivity.class));
-        finish();
     }
 
     private void startMapActivity(boolean onlineFetch) {
@@ -265,7 +263,7 @@ public class SplashScreenActivity extends Activity implements EventIndexInterfac
         Intent intent;
 
         if (!Utility.isUserCreated(SplashScreenActivity.this)) {
-            intent = new Intent(SplashScreenActivity.this, UserRegistrationActivity.class);
+            intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
         }
         else {
             /*if (Utility.isNetworkConnected(SplashScreenActivity.this)) {
