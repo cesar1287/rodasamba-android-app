@@ -3,6 +3,7 @@ package com.ribeiro.cardoso.rodasamba;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -49,9 +50,9 @@ public class UserRegistrationActivity extends FragmentActivity implements UserRe
     private TextView mSexTextView;
     private Button mSubmitButton;
 
-    private int mRegionIdSelected;
-    private int mAgeGroupIdSelected;
-    private String mSexKeySelected;
+    private int mRegionIdSelected = 0;
+    private int mAgeGroupIdSelected = 0;
+    private String mSexKeySelected = null;
 
     public final static String REGION_KEY = "region";
     public final static String AGE_GROUP_KEY = "age_group";
@@ -111,10 +112,14 @@ public class UserRegistrationActivity extends FragmentActivity implements UserRe
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //sendUserToService();
-                finish();
-                startActivity(new Intent(UserRegistrationActivity.this, MainActivity.class));
-                //startActivity(new Intent(UserRegistrationActivity.this, LoginActivity.class));
+                if(mAgeGroupIdSelected==0 || mSexKeySelected==null || mRegionIdSelected==0){
+                    Toast.makeText(UserRegistrationActivity.this, "Todos os campos são obrigatórios", Toast.LENGTH_SHORT).show();
+                }else {
+                    sendUserToService();
+                    finish();
+                    startActivity(new Intent(UserRegistrationActivity.this, MainActivity.class));
+                    //startActivity(new Intent(UserRegistrationActivity.this, LoginActivity.class));
+                }
             }
         });
     }
@@ -129,7 +134,7 @@ public class UserRegistrationActivity extends FragmentActivity implements UserRe
 
     private void sendUserToService() {
 
-        Toast.makeText(this, getString(R.string.data_being_send), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, getString(R.string.data_being_send), Toast.LENGTH_SHORT).show();
 
         User user = new User();
         user.age_group_id = mAgeGroupIdSelected;
@@ -138,10 +143,55 @@ public class UserRegistrationActivity extends FragmentActivity implements UserRe
         user.device_os = "Android";
         user.device_name = Utility.getDeviceName();
 
-        UserSambaApi userSambaApi = new UserSambaApi();
+        RegisterUser();
+
+        /*UserSambaApi userSambaApi = new UserSambaApi();
         userSambaApi.post(user, mInstance);
 
-        ATTEMPTS_TO_CONNECT++;
+        ATTEMPTS_TO_CONNECT++;*/
+    }
+
+    private void RegisterUser(){
+        Utility.setUserId(this, 1);
+        Utility.setAgeGroupUser(this, mAgeGroupIdSelected);
+        Utility.setRegionUser(this, mRegionIdSelected);
+        Utility.setSexUser(this, mSexKeySelected);
+
+        if (Utility.isUserCreated(this)){
+
+            this.findViewById(R.id.user_registration_form_layout).setVisibility(View.GONE);
+            this.findViewById(R.id.loading_screen_progress_layout).setVisibility(View.VISIBLE);
+
+            Toast.makeText(this, getString(R.string.user_created_success), Toast.LENGTH_SHORT).show();
+
+            String[] columns = new String[] {
+                    SambaContract.EventEntry._ID,
+                    SambaContract.EventEntry.COLUMN_THUMBNAIL_URL,
+                    SambaContract.EventEntry.COLUMN_NAME,
+                    SambaContract.EventEntry.COLUMN_EVENT_DATE,
+                    SambaContract.EventEntry.COLUMN_TIME,
+                    SambaContract.EventEntry.COLUMN_REGION_ID,
+                    SambaContract.EventEntry.COLUMN_ADDRESS,
+                    SambaContract.EventEntry.COLUMN_LATITUDE,
+                    SambaContract.EventEntry.COLUMN_LONGITUDE,
+                    SambaContract.RegionEntry.TABLE_NAME + "_" + SambaContract.RegionEntry._ID,
+                    SambaContract.RegionEntry.TABLE_NAME + "_" + SambaContract.RegionEntry.COLUMN_NAME
+            };
+
+            this.mEventBusiness = new EventBusiness(this, this, columns, false);
+
+            this.mEventBusiness.getAsyncEventsRegionList();
+        }/*else {
+            Toast.makeText(this, getString(R.string.common_google_play_services_network_error_text), Toast.LENGTH_SHORT);
+
+            if (ATTEMPTS_TO_CONNECT < MAX_ATTEMPTS_TO_CONNECT) {
+                sendUserToService();
+            }
+            else {
+                Toast.makeText(this, getString(R.string.user_created_failed), Toast.LENGTH_SHORT).show();
+            }
+
+        }*/
     }
 
 

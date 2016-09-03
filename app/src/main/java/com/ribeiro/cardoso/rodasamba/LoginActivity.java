@@ -1,5 +1,6 @@
 package com.ribeiro.cardoso.rodasamba;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,8 @@ import com.facebook.FacebookSdk;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -27,6 +30,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.Scope;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collections;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
@@ -38,6 +46,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     CallbackManager callbackManager;
 
+    private Bundle bFacebookData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,8 +56,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         setContentView(R.layout.activity_login);
 
         if(AccessToken.getCurrentAccessToken()!=null){
-            finish();
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            processLoginFacebook(AccessToken.getCurrentAccessToken());
             //processLoginFacebook(AccessToken.getCurrentAccessToken());
         }
 
@@ -67,8 +76,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                finish();
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                processLoginFacebook(loginResult);
             }
 
             @Override
@@ -174,5 +182,84 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
+    }
+
+    private Bundle getFacebookData(JSONObject object) {
+
+        Bundle bundle = new Bundle();
+
+        try {
+            String id = object.getString("id");
+
+            try {
+                URL profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?width=200&height=150");
+                bundle.putString("profile_pic", profile_pic.toString());
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return null;
+            }
+
+            bundle.putString("idFacebook", id);
+            if (object.has("first_name")) {
+                bundle.putString("first_name", object.getString("first_name"));
+            }if (object.has("last_name")) {
+                bundle.putString("last_name", object.getString("last_name"));
+            }if (object.has("email")) {
+                bundle.putString("email", object.getString("email"));
+            }
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+        return bundle;
+    }
+
+    private void processLoginFacebook(LoginResult loginResult){
+
+        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+        progressDialog.setMessage("Processando dados...");
+        progressDialog.show();
+
+        GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+
+            @Override
+            public void onCompleted(JSONObject object, GraphResponse response) {
+                // Get facebook data from login
+                bFacebookData = getFacebookData(object);
+
+                String nome = bFacebookData.getString("first_name");
+                String email = bFacebookData.getString("email");
+
+                progressDialog.dismiss();
+                Intent irParaATelaPrincipal = new Intent(LoginActivity.this, MainActivity.class);
+                irParaATelaPrincipal.putExtra("infosFacebook", bFacebookData);
+                finish();
+                startActivity(irParaATelaPrincipal);
+            }
+        });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id, first_name, last_name, email"); // Parâmetros que pedimos ao facebook
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
+    private void processLoginFacebook(AccessToken token){
+
+        GraphRequest request = GraphRequest.newMeRequest(token, new GraphRequest.GraphJSONObjectCallback() {
+
+            @Override
+            public void onCompleted(JSONObject object, GraphResponse response) {
+                // Get facebook data from login
+                bFacebookData = getFacebookData(object);
+                Intent irParaATelaPrincipal = new Intent(LoginActivity.this, MainActivity.class);
+                irParaATelaPrincipal.putExtra("infosFacebook", bFacebookData);
+                finish();
+                startActivity(irParaATelaPrincipal);
+            }
+        });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id, first_name, last_name, email"); // Parâmetros que pedimos ao facebook
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 }

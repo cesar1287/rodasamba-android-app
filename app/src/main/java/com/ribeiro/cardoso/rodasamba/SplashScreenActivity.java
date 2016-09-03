@@ -88,22 +88,24 @@ public class SplashScreenActivity extends Activity implements EventIndexInterfac
             if(Utility.isNetworkConnected(this)){
                 // is connected, can fetch events on server
 
-                if(Utility.isOccurringToday(Utility.getLastSync(this)) && Utility.getLastSync(this).getHourOfDay() > 9){
+                //if(Utility.isOccurringToday(Utility.getLastSync(this)) && Utility.getLastSync(this).getHourOfDay() > 9){
+                if(Utility.isOccurringToday(Utility.getLastSync(this))){
                     this.startMapActivity(false);
                 }else{
                     this.startMapActivity(true);
                 }
             }else{
-                // not connected, use db fetch only
+                this.startNotConnectedActivity();
 
-                if (Utility.getLastSync(this).plusDays(3).isBeforeNow()) {
+                // not connected, use db fetch only
+                /*if (Utility.getLastSync(this).plusDays(3).isBeforeNow()) {
                     // saved data is too old
                     this.startNotConnectedActivity();
                 }
                 else {
                     // can use saved data
                     this.startMapActivity(false);
-                }
+                }*/
             }
         }
     }

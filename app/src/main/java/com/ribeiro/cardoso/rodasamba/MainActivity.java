@@ -20,7 +20,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -50,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.Ev
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(getApplication());
         this.setContentView(R.layout.activity_main);
 
         this.mDrawerListItems = this.getResources().getStringArray(R.array.nav_drawer_items);
@@ -278,9 +283,8 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.Ev
                 builder.setMessage(R.string.message_logout)
                         .setPositiveButton(R.string.yes_logout, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                final ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
-                                progressDialog.setMessage("Saindo...");
-                                progressDialog.show();
+                                Toast.makeText(MainActivity.this, "Saindo...", Toast.LENGTH_SHORT).show();
+                                Utility.setUserId(MainActivity.this,-1);
                                 Thread mThread = new Thread(){
                                     @Override
                                     public void run() {
@@ -289,7 +293,6 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.Ev
                                         //logout Facebook
                                         LoginManager.getInstance().logOut();
                                         startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                                        progressDialog.dismiss();
                                         /*SharedPreferences sp = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sp.edit();
                                         editor.clear();
