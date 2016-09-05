@@ -18,9 +18,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by diegopc86 on 14/08/14.
- */
 public class Utility {
 
     private static final String SHARED_PREFERENCES_PREFIX = "com.ribeiro.cardoso.samba";
@@ -60,28 +57,28 @@ public class Utility {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         final String user_id_key = context.getString(R.string.pref_user_id_key);
-        final Integer user_id_default = Integer.parseInt(context.getString(R.string.pref_user_id_default));
-        final int user_id = sharedPreferences.getInt(user_id_key, user_id_default);
+        final String user_id_default = context.getString(R.string.pref_user_id_default);
+        final String user_id = sharedPreferences.getString(user_id_key, user_id_default);
 
-        if (user_id == user_id_default){
+        if (user_id.equals(user_id_default)){
             return false;
         }
 
         return true;
     }
 
-    public static void setUserId(Context context, int id){
+    public static void setUserId(Context context, String id){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         final String user_id_key = context.getString(R.string.pref_user_id_key);
-        sharedPreferences.edit().putInt(user_id_key, id).apply();
+        sharedPreferences.edit().putString(user_id_key, id).apply();
     }
 
-    public static int getUserId(Context context){
+    public static String getUserId(Context context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         final String user_id_key = context.getString(R.string.pref_user_id_key);
-        final Integer user_id_default = Integer.parseInt(context.getString(R.string.pref_user_id_default));
-        final int user_id = sharedPreferences.getInt(user_id_key, user_id_default);
+        final String user_id_default = context.getString(R.string.pref_user_id_default);
+        final String user_id = sharedPreferences.getString(user_id_key, user_id_default);
 
         return  user_id;
     }

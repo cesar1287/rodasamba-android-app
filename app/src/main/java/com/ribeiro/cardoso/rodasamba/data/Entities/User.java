@@ -4,7 +4,7 @@ package com.ribeiro.cardoso.rodasamba.data.Entities;
  * Created by diegopc86 on 23/08/14.
  */
 public class User {
-    public int id;
+    public String id;
     public String nome;
     public String sex;
     public int region_id;

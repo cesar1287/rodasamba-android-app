@@ -68,6 +68,12 @@ public class UserRegistrationActivity extends FragmentActivity implements UserRe
 
     private EventBusiness mEventBusiness;
 
+    Bundle infosFacebook;
+    Bundle infosGoogle;
+    String nome;
+    String email;
+    String id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,6 +128,20 @@ public class UserRegistrationActivity extends FragmentActivity implements UserRe
                 }
             }
         });
+
+        infosFacebook = getIntent().getBundleExtra("infosFacebook");
+        if(infosFacebook!=null) {
+            nome = infosFacebook.get("first_name").toString()+" "+infosFacebook.get("last_name").toString();
+            //email = infosFacebook.get("email").toString();
+            id = infosFacebook.get("idFacebook").toString();
+        }
+
+        infosGoogle= getIntent().getBundleExtra("infosGoogle");
+        if(infosGoogle!=null) {
+            nome = infosGoogle.get("name").toString();
+            //email = infosFacebook.get("email").toString();
+            id = infosGoogle.get("id").toString();
+        }
     }
 
     @Override
@@ -137,6 +157,12 @@ public class UserRegistrationActivity extends FragmentActivity implements UserRe
         //Toast.makeText(this, getString(R.string.data_being_send), Toast.LENGTH_SHORT).show();
 
         User user = new User();
+        user.nome = nome;
+        if(id==null){
+            id = "1";
+        }else {
+            user.id = id;
+        }
         user.age_group_id = mAgeGroupIdSelected;
         user.region_id = mRegionIdSelected;
         user.sex = mSexKeySelected;
@@ -152,7 +178,8 @@ public class UserRegistrationActivity extends FragmentActivity implements UserRe
     }
 
     private void RegisterUser(){
-        Utility.setUserId(this, 1);
+
+        Utility.setUserId(this, id);
         Utility.setAgeGroupUser(this, mAgeGroupIdSelected);
         Utility.setRegionUser(this, mRegionIdSelected);
         Utility.setSexUser(this, mSexKeySelected);
@@ -233,7 +260,7 @@ public class UserRegistrationActivity extends FragmentActivity implements UserRe
             for (Header header: response.getHeaders()){
                 String name = header.getName();
                 if (null != name && name.equals("Location")){
-                    Utility.setUserId(this, Integer.parseInt(header.getValue()));
+                    Utility.setUserId(this, header.getValue());
                     Utility.setAgeGroupUser(this, mAgeGroupIdSelected);
                     Utility.setRegionUser(this, mRegionIdSelected);
                     Utility.setSexUser(this, mSexKeySelected);

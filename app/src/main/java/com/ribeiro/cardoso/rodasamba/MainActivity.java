@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.Ev
                         .setPositiveButton(R.string.yes_logout, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Toast.makeText(MainActivity.this, "Saindo...", Toast.LENGTH_SHORT).show();
-                                Utility.setUserId(MainActivity.this,-1);
+                                Utility.setUserId(MainActivity.this,"-1");
                                 Thread mThread = new Thread(){
                                     @Override
                                     public void run() {

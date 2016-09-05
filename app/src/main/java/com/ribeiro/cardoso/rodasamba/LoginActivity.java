@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     CallbackManager callbackManager;
 
     private Bundle bFacebookData;
+    private Bundle bGoogleData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         if(AccessToken.getCurrentAccessToken()!=null){
             processLoginFacebook(AccessToken.getCurrentAccessToken());
-            //processLoginFacebook(AccessToken.getCurrentAccessToken());
         }
 
         TextView continue_how_visitant = (TextView) findViewById(R.id.continue_how_visitant);
@@ -161,8 +161,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            finish();
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            processLoginGoogle(acct);
         } else {
             // Signed out, show unauthenticated UI.
         }
@@ -214,6 +213,26 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         return bundle;
     }
 
+    private Bundle getGoogleData(GoogleSignInAccount account) {
+
+        Bundle bundle = new Bundle();
+
+        bundle.putString("name", account.getDisplayName());
+        bundle.putString("id", account.getId());
+        bundle.putString("email", account.getEmail());
+
+        return bundle;
+    }
+
+    private void processLoginGoogle(GoogleSignInAccount account){
+
+        bGoogleData = getGoogleData(account);
+        Intent irParaATelaPrincipal = new Intent(LoginActivity.this, UserRegistrationActivity.class);
+        irParaATelaPrincipal.putExtra("infosGoogle", bGoogleData);
+        finish();
+        startActivity(irParaATelaPrincipal);
+    }
+
     private void processLoginFacebook(LoginResult loginResult){
 
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
@@ -231,7 +250,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 String email = bFacebookData.getString("email");
 
                 progressDialog.dismiss();
-                Intent irParaATelaPrincipal = new Intent(LoginActivity.this, MainActivity.class);
+                Intent irParaATelaPrincipal = new Intent(LoginActivity.this, UserRegistrationActivity.class);
                 irParaATelaPrincipal.putExtra("infosFacebook", bFacebookData);
                 finish();
                 startActivity(irParaATelaPrincipal);
@@ -251,7 +270,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             public void onCompleted(JSONObject object, GraphResponse response) {
                 // Get facebook data from login
                 bFacebookData = getFacebookData(object);
-                Intent irParaATelaPrincipal = new Intent(LoginActivity.this, MainActivity.class);
+                Intent irParaATelaPrincipal = new Intent(LoginActivity.this, UserRegistrationActivity.class);
                 irParaATelaPrincipal.putExtra("infosFacebook", bFacebookData);
                 finish();
                 startActivity(irParaATelaPrincipal);

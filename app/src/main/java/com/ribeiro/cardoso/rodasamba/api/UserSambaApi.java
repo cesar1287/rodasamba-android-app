@@ -31,7 +31,7 @@ public class UserSambaApi extends SambaApi<User> {
     public interface UserSambaApiInteface {
 
         @GET("/user/{id}")
-        void show(@Path("id") int id, Callback<SambaApiResponse<User>> cb);
+        void show(@Path("id") String id, Callback<SambaApiResponse<User>> cb);
 
         @FormUrlEncoded
         @POST("/user")
@@ -39,7 +39,7 @@ public class UserSambaApi extends SambaApi<User> {
 
         @FormUrlEncoded
         @PUT("/user/{id}")
-        void put(@Path("id") int id, @Field("sex") String sex, @Field("region_id") int region_id, @Field("age_group_id") int age_group_id, @Field("device_os") String device_os, @Field("device_name") String device_name, Callback<SambaApiResponse<User>> cb );
+        void put(@Path("id") String id, @Field("sex") String sex, @Field("region_id") int region_id, @Field("age_group_id") int age_group_id, @Field("device_os") String device_os, @Field("device_name") String device_name, Callback<SambaApiResponse<User>> cb );
 
     }
 
