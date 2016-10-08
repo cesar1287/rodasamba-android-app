@@ -414,10 +414,10 @@ public class EventsMapFragment extends Fragment implements LocationListener, Eve
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        LatLng sydney = new LatLng(-10.0, -55.0);
+        LatLng brasil = new LatLng(-10.0, -55.0);
 
         mMap.setMyLocationEnabled(true);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, (float)3.6));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(brasil, (float)3.6));
 
     }
 
