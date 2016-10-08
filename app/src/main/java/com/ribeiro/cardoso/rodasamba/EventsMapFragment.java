@@ -98,7 +98,7 @@ public class EventsMapFragment extends Fragment implements LocationListener, Eve
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_events_map, container, false);
 
-        mMarkerEventMap = new HashMap<Marker, Utility.Pair<Event, Region>>();
+        mMarkerEventMap = new HashMap<>();
 
         mLoadingView = rootView.findViewById(R.id.events_map_loading_view);
         mLayoutMapView = rootView.findViewById(R.id.events_map_layout_view);
@@ -414,7 +414,11 @@ public class EventsMapFragment extends Fragment implements LocationListener, Eve
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+        LatLng sydney = new LatLng(-10.0, -55.0);
+
         mMap.setMyLocationEnabled(true);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, (float)3.6));
+
     }
 
     private class EventMarkerClickListener implements GoogleMap.OnMarkerClickListener {
